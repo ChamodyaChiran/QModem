@@ -158,11 +158,12 @@ apn:value("internet.rtk.ru", translate("Rostelecom (RU)"))
 apn:value("internet.sberbank-tele.com", translate("Sber Mobile (RU)"))
 
 -- SriLanka (LK)
-apn:value("dialogbb", translate("Dialog (LK)"))
+apn:value("dialogbb", translate("Dialog Mobile (LK)"))
 apn:value("dbnbbpre", translate("Dialog HBB (LK)"))
 apn:value("mobitel", translate("SLT (LK)"))
 apn:value("mobitel", translate("Mobitel (LK)"))
 apn:value("airtellive", translate("Airtel (LK)"))
+apn:value("airtelpostpaidinternet", translate("Airtel Postpaid (LK)"))
 apn:value("hutch3g", translate("Hutch (LK)"))
 
 auth = s:taboption("advanced", ListValue, "auth", translate("Authentication Type"))
