@@ -36,6 +36,7 @@ rm520n-cn | qualcomm |✔ usb(qmi,gobinet,ecm,mbim,rndis,ncm) | ✘
 rm520n-eu | qualcomm |✔ usb(qmi,gobinet,ecm,mbim,rndis,ncm) | ✔ pcie(qmi,gobinet,mbim)
 rm520n-gl | qualcomm |✔ usb(qmi,gobinet,ecm,mbim,rndis,ncm) | ✔ pcie(qmi,gobinet,mbim)
 rm520f-gl | qualcomm |✔ usb(qmi,gobinet,ecm,mbim,rndis,ncm) | ✔ pcie(qmi,gobinet,mbim)
+rm520f-bl | qualcomm |✔ usb(qmi,gobinet,ecm,mbim,rndis,ncm) | ✔ pcie(qmi,gobinet,mbim)
 rm521f-gl | qualcomm |✔ usb(qmi,gobinet,ecm,mbim,rndis,ncm) | ✔ pcie(qmi,gobinet,mbim)
 rm530n-gl | qualcomm |✔ usb(qmi,gobinet,ecm,mbim,rndis,ncm) | ✔ pcie(qmi,gobinet,mbim)
 rm551e-gl | qualcomm |✔ usb(qmi,gobinet,ecm,mbim,rndis,ncm) | ✔ pcie(qmi,gobinet,mbim)
@@ -47,6 +48,7 @@ rg520f-eu | qualcomm |✔ usb(qmi,gobinet,ecm,mbim,rndis,ncm) | ✔ pcie(qmi,gob
 rg520f-eb | qualcomm |✔ usb(qmi,gobinet,ecm,mbim,rndis,ncm) | ✔ pcie(qmi,gobinet,mbim)
 rg520f-jo | qualcomm |✔ usb(qmi,gobinet,ecm,mbim,rndis,ncm) | ✔ pcie(qmi,gobinet,mbim)
 rg530f-na | qualcomm |✔ usb(qmi,gobinet,ecm,mbim,rndis,ncm) | ✔ pcie(qmi,gobinet,mbim)
+rg650v-eu | qualcomm |✔ usb(qmi,gobinet,ecm,mbim,rndis,ncm) | ✔ pcie(qmi,gobinet,mbim)
 ec20f | lte |✔ usb(qmi,gobinet,ecm,mbim,rndis,ncm) | ✘
 ec25 | lte |✔ usb(qmi,gobinet,ecm,mbim,rndis,ncm) | ✘
 ec21 | lte |✔ usb(qmi,gobinet,ecm,mbim,rndis,ncm) | ✘
@@ -81,6 +83,8 @@ srm821 | unisoc |✔ usb(ecm,rndis,ncm) | ✘
 Model | Platform | USB  | PCIe 
 --- | --- | --- | ---
 em9190 | qualcomm |✔ usb(mbim,rmnet) | ✔ pcie(mbim,rmnet)
+mc7354 | lte |✔ usb(qmi) | ✘
+mc7355 | lte |✔ usb(qmi) | ✘
 
 # telit
 Model | Platform | USB  | PCIe 
@@ -90,6 +94,9 @@ fn990a40 | qualcomm |✔ usb(mbim,rndis,qmi,ecm) | ✔ pcie(mbim,qmi)
 # simcom
 Model | Platform | USB  | PCIe 
 --- | --- | --- | ---
+simcom_a8200_serias | asrmicro |✔ usb(ecm,rndis) | ✘
+a8200c-m2 | asrmicro |✔ usb(ecm,rndis) | ✘
+a7605c | lte |✔ usb(ecm,rndis,auto) | ✘
 simcom_d8200g | qualcomm |✔ usb(qmi,rndis) | ✘
 simcom_sim8200ea-m2 | qualcomm |✔ usb(qmi,rndis) | ✘
 simcom_sim8202g-m2 | qualcomm |✔ usb(qmi,rndis,mbim) | ✘
@@ -107,3 +114,8 @@ t99w640 | qualcomm |✘ | ✔ pcie(mbim)
 Model | Platform | USB  | PCIe 
 --- | --- | --- | ---
 n510m | unisoc |✔ usb(ecm) | ✘
+
+# gosuncn
+Model | Platform | USB  | PCIe 
+--- | --- | --- | ---
+me3630-w | lte |✔ usb(ecm) | ✘

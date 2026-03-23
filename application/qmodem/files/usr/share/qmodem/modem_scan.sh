@@ -28,6 +28,13 @@ get_default_alias()
     config_foreach _get_default_alias_by_slot
 }
 
+get_led_sript_by_slot()
+{
+    target_slot=$1
+    config_load qmodem
+    config_foreach _get_led_sript_by_slot
+}
+
 get_default_metric()
 {
     target_slot=$1
@@ -65,6 +72,15 @@ _get_default_metric_by_slot()
         config_get default_metric $cfg  default_metric
     fi
 
+}
+
+_get_led_sript_by_slot()
+{
+    local cfg="$1"
+    config_get _get_slot $cfg slot
+    if [ "$target_slot" == "$_get_slot" ];then
+        config_get led_script $cfg  led_script
+    fi
 }
 
 scan()
@@ -210,6 +226,7 @@ scan_pcie_slot_interfaces()
                 option|\
                 cdc_acm|\
                 usbserial_generic|\
+                qcserial|\
                 usbserial)
                     ttyUSB_device=$(ls "$assoc_usb_path/$interface/" | grep ttyUSB)
                     ttyACM_device=$(ls "$assoc_usb_path/$interface/" | grep ttyACM)
@@ -259,6 +276,7 @@ scan_usb_slot_interfaces()
         case $interface_driver in
             option|\
             cdc_acm|\
+            qcserial|\
             usbserial_generic|\
             usbserial)
                 ttyUSB_device=$(ls "$slot_path/$interface/" | grep ttyUSB)
@@ -358,6 +376,24 @@ match_config()
     sa_available_band=$(echo $modem_config | jq -r ".sa_band")
 }
 
+get_model_name_by_id()
+{
+    local id=$1
+    local name=$(echo $modem_support | jq -r '.modem_support."'$slot_type'" | to_entries[] | select(.value.id=="'$id'") | .key')
+    modem_config=$(echo $modem_support | jq '.modem_support."'$slot_type'"."'$name'"')
+    [ "$modem_config" == "null"  ] && return
+    [ -z "$modem_config"  ] && return
+    modem_name=$name
+    manufacturer=$(echo $modem_config | jq -r ".manufacturer")
+    platform=$(echo $modem_config | jq -r ".platform")
+    suggest_pdp_index=$(echo $modem_config | jq -r ".pdp_index")
+    modes=$(echo $modem_config | jq -r ".modes[]")
+    wcdma_available_band=$(echo $modem_config | jq -r ".wcdma_band")
+    lte_available_band=$(echo $modem_config | jq -r ".lte_band")
+    nsa_available_band=$(echo $modem_config | jq -r ".nsa_band")
+    sa_available_band=$(echo $modem_config | jq -r ".sa_band")
+}
+
 get_modem_model()
 {
     local at_port=$1
@@ -425,6 +461,13 @@ add()
         [ -n "$modem_name" ] && break
         sleep 1
     done
+    if [ -z "$modem_name" ];then
+        m_debug "modem $modem_name not found, try to get modem model by id"
+        product_id=$(cat $modem_path/idProduct)
+        vendor_id=$(cat $modem_path/idVendor)
+        id="$vendor_id:$product_id"
+        get_model_name_by_id $id
+    fi
     [ -z "$modem_name" ] && lock -u /tmp/lock/modem_add_$slot && return
     m_debug  "add modem $modem_name slot $slot slot_type $slot_type"
     if [ -n "$is_exist" ]; then
@@ -447,12 +490,14 @@ add()
         unset default_metric
         get_default_alias $slot
         get_default_metric $slot
+        get_led_sript_by_slot $slot
         modem_count=$(uci -q get qmodem.main.modem_count)
         [ -z "$modem_count" ] && modem_count=0
         modem_count=$(($modem_count+1))
         uci -q set qmodem.main.modem_count=$modem_count
         uci -q set qmodem.$section_name=modem-device
         [ -n "$default_alias" ] && uci -q set  qmodem.${section_name}.alias="$default_alias"
+        [ -n "$led_script" ] && uci -q set qmodem.${section_name}.led_script="$led_script"
         uci commit qmodem
         lock -u /tmp/lock/modem_add
     #release lock
